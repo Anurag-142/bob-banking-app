@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Login — BankingApp{% endblock %}
+
+{# The login page has no navbar — override with an empty block #}
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-12 col-sm-10 col-md-7 col-lg-5">
+
+    <div class="text-center mb-4">
+      <h2 class="fw-bold" style="color:#1f2328;">🏦 BankingApp</h2>
+      <p class="text-muted">Secure online banking — sign in to continue</p>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h5 class="card-title mb-4 fw-semibold">Customer Login</h5>
+
+        {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{ error }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('login') }}" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              autocomplete="username"
+              required
+            />
+          </div>
+
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Sign In</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <p class="text-center text-muted mt-3" style="font-size:0.82rem;">
+      Don't have an account? Contact your branch.
+    </p>
+
+  </div>
+</div>
+{% endblock %}

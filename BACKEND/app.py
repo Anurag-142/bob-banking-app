@@ -165,7 +165,23 @@ def withdraw():
 
     if request.method == "POST":
         raw_amount = request.form.get("amount", "").strip()
-        result = process_withdrawal(customer_id, raw_amount)
+
+        # --- Route-level validation ---
+        if not raw_amount:
+            result = {"ok": False, "message": "Amount is required", "balance": None}
+        else:
+            try:
+                _amt = float(raw_amount)
+            except ValueError:
+                _amt = None
+            if _amt is None or _amt <= 0:
+                result = {"ok": False, "message": "Amount must be greater than zero", "balance": None}
+            else:
+                _bal = get_balance(customer_id)
+                if _amt > _bal:
+                    result = {"ok": False, "message": "Insufficient funds", "balance": _bal}
+                else:
+                    result = process_withdrawal(customer_id, raw_amount)
 
     # Always fetch the latest balance for display.
     balance = get_balance(customer_id)
